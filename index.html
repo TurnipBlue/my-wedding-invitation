@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Свадебное приглашение - Алексей и Яна</title>
+    <style>
+        /* === CSS-переменные === */
+        :root {
+            --color-primary:    #1a3a6b;
+            --color-secondary:  #2c5aa0;
+            --color-accent:     #4a7ec7;
+            --color-muted:      #4a5a7a;
+            --color-background: #f8f8ec;
+            --color-card:       #ffffff;
+            --color-heart:      #e74c3c;
+            
+            --font-handwritten: Segoe Script, cursive;
+            --font-serif: Garamond, serif;
+            
+            --aspect-ratio: 1.414;
+        }
+
+        /* === Сброс и базовые стили === */
+        * { 
+            margin:  0;
+            padding: 0;
+            
+            box-sizing: border-box;
+        }
+
+        html { 
+            scroll-behavior: smooth;
+        }
+
+        body {
+            overflow-x: hidden;
+            overflow-y: auto;
+            
+            font-family: var(--font-serif);
+            background:  var(--color-background);
+            color:       var(--color-primary);
+            
+            text-shadow: 0 0 8px var(--color-card), 0 0 12px var(--color-card), 0 0 16px var(--color-card);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        main {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ══ Глава ═══ */
+        .chapter {
+            width: min(100vw, calc(100vh / var(--aspect-ratio)));
+            min-height: 100vh;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(10px, 1.8vh, 20px);
+            padding: clamp(24px, 5vh, 60px) clamp(16px, 4vw, 40px);
+            cursor: pointer;
+            user-select: none;
+            text-align: center;
+        }
+
+        /* ═══ Типографика ═══ */
+        .title {
+            font-family: var(--font-handwritten);
+            font-size: clamp(2rem, 6vw, 4rem);
+            line-height: 1.1;
+        }
+
+        .paragraph {
+            font-size: clamp(1.1rem, 2.6vw, 1.5rem);
+            line-height: 1.45;
+            max-width: 520px;
+        }
+
+        .paragraph strong { 
+            color: var(--color-secondary); 
+        }
+
+        /* ═══ Восковая печать ═══ */
+        .seal {
+            width: clamp(100px, 18vw, 160px);
+            height: clamp(100px, 18vw, 160px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .seal img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+        }
+
+        /* ═══ Polaroid-фото ═══ */
+        .polaroid {
+            position: relative;
+            background: var(--color-card);
+            padding: clamp(6px, 1vw, 12px) clamp(6px, 1vw, 12px) clamp(26px, 4vw, 42px);
+            box-shadow: 
+                0 6px 20px rgba(26, 58, 107, 0.18), 
+                0 2px 6px rgba(0, 0, 0, 0.08);
+            display: inline-block;
+            max-width: min(240px, 50vw);
+            width: 100%;
+            flex-shrink: 0;
+        }
+
+        .polaroid::before {
+            content: attr(data-emoji);
+            position: absolute;
+            top: clamp(6px, 1vw, 12px);
+            left: clamp(6px, 1vw, 12px);
+            right: clamp(6px, 1vw, 12px);
+            bottom: clamp(26px, 4vw, 42px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(2.2rem, 6vw, 4rem);
+            background: linear-gradient(135deg, #e8f0f8 0%, #d0e0f0 100%);
+            z-index: 0;
+        }
+
+        .polaroid img {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            display: block;
+        }
+
+        .polaroid-caption {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: clamp(4px, 0.8vw, 10px);
+            font-family: var(--font-handwritten);
+            font-size: clamp(1rem, 2.4vw, 1.4rem);
+            color: var(--color-primary);
+            text-align: center;
+        }
+
+        /* ═══ Календарь ═══ */
+        .calendar {
+            background: var(--color-card);
+            padding: clamp(12px, 2vh, 20px) clamp(10px, 2vw, 20px);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(26, 58, 107, 0.12);
+            width: min(360px, 90vw);
+            flex-shrink: 0;
+        }
+
+        .calendar-month {
+            font-family: var(--font-handwritten);
+            font-size: clamp(1.4rem, 3.4vw, 1.9rem);
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 3px;
+        }
+
+        .calendar-day, 
+        .calendar-header {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(0.95rem, 2.4vw, 1.2rem);
+        }
+
+        .calendar-header {
+            color: var(--color-muted);
+            font-weight: 600;
+            font-size: clamp(0.8rem, 2vw, 1rem);
+        }
+
+        .calendar-day.highlight {
+            background: var(--color-primary);
+            color: var(--color-card);
+            border-radius: 50%;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(26, 58, 107, 0.4);
+        }
+
+        .calendar-day:empty {
+            visibility: hidden;
+        }
+
+        /* ═══ Программа дня ═══ */
+        .program {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: clamp(8px, 1.4vh, 16px);
+            width: min(480px, 92vw);
+        }
+
+        .program li {
+            background: var(--color-card);
+            padding: clamp(10px, 1.6vh, 18px) clamp(12px, 2vw, 20px);
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(26, 58, 107, 0.1);
+            display: grid;
+            grid-template-columns: auto auto 1fr;
+            gap: clamp(8px, 1.5vw, 14px);
+            align-items: center;
+            text-align: left;
+        }
+
+        .program .time {
+            font-family: var(--font-handwritten);
+            font-size: clamp(1.5rem, 3.6vw, 2rem);
+            color: var(--color-primary);
+            min-width: 60px;
+        }
+
+        .program .icon {
+            font-size: clamp(1.4rem, 3vw, 1.8rem);
+        }
+
+        .program .info h4 {
+            font-family: var(--font-handwritten);
+            font-size: clamp(1.2rem, 2.8vw, 1.5rem);
+            color: var(--color-primary);
+            margin-bottom: 2px;
+        }
+
+        .program .info p {
+            font-size: clamp(1rem, 2.2vw, 1.15rem);
+            color: var(--color-muted);
+        }
+
+        /* ═══ Сердечко ═══ */
+        .heart {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            color: var(--color-heart);
+            animation: heartbeat 1.6s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            15% { transform: scale(1.18); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.1); }
+        }
+
+        /* ═══ Анимация появления ═══ */
+        .fade {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fade[data-delay="1"] { transition-delay: 0.15s; }
+        .fade[data-delay="2"] { transition-delay: 0.3s; }
+        .fade[data-delay="3"] { transition-delay: 0.45s; }
+        .fade[data-delay="4"] { transition-delay: 0.6s; }
+
+        /* ═══ Декоративные узоры ═══
+           Контейнер занимает всю высоту экрана.
+           Изображение растягивается на 100vh по высоте.
+           Ширина автоматическая для сохранения пропорций. */
+        .ornament {
+            position: fixed;
+            top: 0;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .ornament-left { 
+            left: 0;
+            justify-content: flex-start;
+        }
+
+        .ornament-right { 
+            right: 0;
+            justify-content: flex-end;
+        }
+
+        .ornament img {
+            height: 100vh;
+            width: auto;
+            /* max-width: 50vw; */
+            object-fit: contain;
+            display: block;
+        }
+
+        body[data-active~="left"] .ornament-left { opacity: 1; }
+        body[data-active~="right"] .ornament-right { opacity: 1; }
+
+        /* ═══ Подсказка прокрутки ═══ */
+        .scroll-hint {
+            font-size: 1.2rem;
+            color: var(--color-primary);
+            opacity: 0.5;
+            animation: bounce 2s infinite;
+            margin-top: clamp(10px, 2vh, 20px);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- === Декоративные узоры === -->
+    <div class="ornament ornament-left" aria-hidden="true">
+        <img src="ornament-left.png" alt="">
+    </div>
+
+    <div class="ornament ornament-right" aria-hidden="true">
+        <img src="ornament-right.png" alt="">
+    </div>
+
+
+    <main>
+
+        <!-- Глава 1: Приглашение -->
+        <section class="chapter" data-sides="both">
+            <h1 class="title fade">
+                Приглашение
+                <br>
+                на свадьбу
+            </h1>
+
+            <div class="seal fade" data-delay="1" role="img" aria-label="Восковая печать">
+                <img src="seal.png" alt="">
+            </div>
+
+            <p class="paragraph fade" data-delay="2">От кого: <strong>Алексей и Яна</strong></p>
+            <p class="paragraph fade" data-delay="3">Кому: <strong>Близким и друзьям</strong></p>
+
+            <div class="scroll-hint fade" data-delay="4">🩵 Нажмите, чтобы открыть 🩵</div>
+        </section>
+
+
+        <!-- Глава 2: Дата -->
+        <section class="chapter" data-sides="left">
+            <h2 class="title fade">Дорогие и любимые</h2>
+            
+            <p class="paragraph fade" data-delay="1">
+                Без гостей наша свадьба не будет
+                <br>
+                такой счастливой и весёлой!
+            </p>
+            <p class="paragraph fade" data-delay="2">Приглашаем вас провести этот день с нами!</p>
+
+            <div class="calendar fade" data-delay="3">
+                <div class="calendar-month">Июль 2026</div>
+                <div class="calendar-grid">
+                    <div class="calendar-header">ПН</div>
+                    <div class="calendar-header">ВТ</div>
+                    <div class="calendar-header">СР</div>
+                    <div class="calendar-header">ЧТ</div>
+                    <div class="calendar-header">ПТ</div>
+                    <div class="calendar-header">СБ</div>
+                    <div class="calendar-header">ВС</div>
+
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day">1</div>
+                    <div class="calendar-day">2</div>
+                    <div class="calendar-day">3</div>
+                    <div class="calendar-day">4</div>
+                    <div class="calendar-day">5</div>
+
+                    <div class="calendar-day">6</div>
+                    <div class="calendar-day">7</div>
+                    <div class="calendar-day">8</div>
+                    <div class="calendar-day">9</div>
+                    <div class="calendar-day">10</div>
+                    <div class="calendar-day">11</div>
+                    <div class="calendar-day">12</div>
+
+                    <div class="calendar-day">13</div>
+                    <div class="calendar-day">14</div>
+                    <div class="calendar-day">15</div>
+                    <div class="calendar-day">16</div>
+                    <div class="calendar-day">17</div>
+                    <div class="calendar-day">18</div>
+                    <div class="calendar-day">19</div>
+
+                    <div class="calendar-day">20</div>
+                    <div class="calendar-day">21</div>
+                    <div class="calendar-day">22</div>
+                    <div class="calendar-day">23</div>
+                    <div class="calendar-day">24</div>
+                    <div class="calendar-day">25</div>
+                    <div class="calendar-day">26</div>
+
+                    <div class="calendar-day">27</div>
+                    <div class="calendar-day highlight">28</div>
+                    <div class="calendar-day">29</div>
+                    <div class="calendar-day">30</div>
+                    <div class="calendar-day">31</div>
+                </div>
+            </div>
+
+            <div class="scroll-hint fade" data-delay="4">🩵</div>
+        </section>
+
+
+        <!-- Глава 3: Расписание -->
+        <section class="chapter" data-sides="right">
+            <h2 class="title fade">Программа дня</h2>
+
+            <ul class="program fade" data-delay="1">
+                <li>
+                    <span class="time">15:30</span>
+                    <span class="icon">💒</span>
+                    <div class="info">
+                        <h4>Роспись в ЗАГСе</h4>
+                        <p>Когда мы скажем друг другу "да"</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="time">16:30</span>
+                    <span class="icon">🛎️</span>
+                    <div class="info">
+                        <h4>Общий сбор и фуршет</h4>
+                        <p>Сбор гостей, маленький перекус</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="time">17:00</span>
+                    <span class="icon">🥂</span>
+                    <div class="info">
+                        <h4>Начало банкета</h4>
+                        <p>Вкусный ужин, тосты и танцы до упаду</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="time">21:00</span>
+                    <span class="icon">🎆</span>
+                    <div class="info">
+                        <h4>Завершение банкета</h4>
+                        <p>Яркое завершение волшебного вечера</p>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="scroll-hint fade" data-delay="2">🩵</div>
+        </section>
+
+
+        <!-- Глава 4: Место -->
+        <section class="chapter" data-sides="left">
+            <h2 class="title fade">Место церемонии</h2>
+
+            <div class="polaroid fade" data-delay="1" data-emoji="💒">
+                <img src="ZAGS.png" alt="💒">
+                <div class="polaroid-caption"></div>
+            </div>
+            
+            <div class="polaroid fade" data-delay="2" data-emoji="💒">
+                <img src="ZAGS-address.png" alt="💒">
+                <div class="polaroid-caption"></div>
+            </div>
+            
+            <p class="paragraph fade" data-delay="3">
+                Мы распишемся по адресу:
+                <br>
+                <strong>
+                    г. Чебоксары, Московский проспект,
+                    <br>
+                    д. 38, к. 5
+                </strong>
+            </p>
+
+            <div class="scroll-hint fade" data-delay="4">🩵</div>
+        </section>
+        
+        <!-- Глава 5: Место -->
+        <section class="chapter" data-sides="right">
+            <h2 class="title fade">Место банкета</h2>
+
+            <div class="polaroid fade" data-delay="1" data-emoji="🥂">
+                <img src="banquet-hall.png" alt="🥂">
+                <div class="polaroid-caption"></div>
+            </div>
+            
+            <div class="polaroid fade" data-delay="2" data-emoji="🥂">
+                <img src="banquet-address.png" alt="🥂">
+                <div class="polaroid-caption"></div>
+            </div>
+            
+            <p class="paragraph fade" data-delay="3">
+                Празднование по адресу:
+                <br>
+                <strong>
+                    г. Чебоксары, проспект Максима Горького,
+                    <br>
+                    д. 2М
+                </strong>
+            </p>
+
+            <div class="scroll-hint fade" data-delay="4">🩵</div>
+        </section>
+
+
+        <!-- Глава 6: Оформление -->
+        <!-- <section class="chapter" data-sides="left">
+            <h2 class="title fade">Стиль торжества</h2>
+            
+            <p class="paragraph fade" data-delay="1">
+                Можете использовать этот образец оформления,
+                <br>
+                чтобы подобрать неотразимый наряд
+            </p>
+
+            <div class="polaroid fade" data-delay="2" data-emoji="🎨">
+                <img src="decoration-example.png" alt="🎨">
+                <div class="polaroid-caption"></div>
+            </div>
+
+            <div class="scroll-hint fade" data-delay="3">🩵</div>
+        </section> -->
+
+
+        <!-- Глава 7: Ждём вас -->
+        <section class="chapter" data-sides="both">
+            <h2 class="title fade">Ждём вас!</h2>
+
+            <p class="paragraph fade" data-delay="1">
+                Просим вас ответить на приглашение <strong>до 19 июля</strong>.<br>
+                Это поможет организовать лучшее торжество!
+            </p>
+            
+            <div class="polaroid fade" data-delay="1" data-emoji="💑">
+                <img src="us.png" alt="💑">
+            </div>
+
+            <p class="paragraph fade" data-delay="2">С любовью, <strong>Алексей и Яна!</strong></p>
+            <div class="heart fade" data-delay="3" role="img" aria-label="Сердце">❤</div>
+        </section>
+
+    </main>
+
+
+    <script>
+        /* ═══ Переход к следующей главе ═══ */
+        document.querySelector('main').addEventListener('click', (event) => {
+            const chapter = event.target.closest('.chapter');
+            if (!chapter) return;
+
+            const nextChapter = chapter.nextElementSibling;
+            if (nextChapter && nextChapter.classList.contains('chapter')) {
+                nextChapter.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+
+        /* ═══ Появление элементов при скролле ═══ */
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -40px 0px'
+        });
+
+        document.querySelectorAll('.fade').forEach(el => {
+            fadeObserver.observe(el);
+        });
+
+        /* ═══ Управление видимостью узоров ═══ */
+        const chapters = document.querySelectorAll('.chapter');
+        let ticking = false;
+        let rafId = null;
+
+        function updateActiveSides() {
+            const viewCenterY = window.scrollY + window.innerHeight / 2;
+            let closestChapter = null;
+            let minDistance = Infinity;
+
+            chapters.forEach(chapter => {
+                const chapterCenter = chapter.offsetTop + chapter.offsetHeight / 2;
+                const distance = Math.abs(viewCenterY - chapterCenter);
+                
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    closestChapter = chapter;
+                }
+            });
+
+            if (!closestChapter) return;
+
+            const sides = closestChapter.dataset.sides;
+            
+            if (sides === 'both') {
+                document.body.dataset.active = 'left right';
+            } else {
+                document.body.dataset.active = sides || '';
+            }
+        }
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                rafId = requestAnimationFrame(() => {
+                    updateActiveSides();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        updateActiveSides();
+
+        window.addEventListener('beforeunload', () => {
+            if (rafId) cancelAnimationFrame(rafId);
+        });
+    </script>
+
+</body>
+</html>
+
